@@ -1,0 +1,1 @@
+../../../ecuserver/scraping/scraping_doc_pdf.py

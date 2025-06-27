@@ -1,0 +1,1 @@
+/home/lg/BIO/ecuapassdocs/EcuapassBot7/EcuapassBot7-dev/commander/info/ecuapass_settings.py

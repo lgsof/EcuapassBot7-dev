@@ -1,0 +1,1 @@
+/home/lg/BIO/iaprojects/ecuapassdocs/EcuapassBot/bot6/EcuapassBot6-dev/ecuserver/ecuapassdocs/info/scraping_pdf_SANCHEZPOLO.py

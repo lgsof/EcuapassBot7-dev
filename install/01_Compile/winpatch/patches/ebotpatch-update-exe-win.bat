@@ -1,0 +1,1 @@
+../ebotpatch-update-exe-win.bat

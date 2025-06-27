@@ -1,0 +1,40 @@
+{
+    "datos": {
+        "empresa": "ALCOMEXCARGO",
+        "id": "ALCOMEXCARGO",
+        "nombre": "TRANSPORTE DE CARGA NACIONAL E INTERNACIONAL ALCOMEXCARGO S.A.  ",
+        "direccion": "CALLE AV. SAN FRANCISCO INT.: REMIGIO CRESPO",
+        "idTipo": "RUC",
+        "idNumero": "0491523638001",
+        "appType": "COREBD",
+        "coordsFile": "coordinates_pdfs_docs_CODEBIN.json",
+        "permiso": "PO-EC-0091-23",
+        "token": "PO-EC-0091-23",
+        "urlWebsite": "https://alcomexcargo.corebd.net",
+        "userColombia": "NTAMARCELA",
+        "passwordColombia": "1974",
+        "userEcuador": "NTAMARCELA",
+        "passwordEcuador": "1974",
+        "userPeru": "",
+        "passwordPeru": ""
+    },
+    "cartaporte": {
+        "02_Remitente": "",
+        "03_Destinatario": "",
+        "04_Consignatario": "",
+        "05_Notificado": "",
+        "08_Entrega": "",
+        "09_Condiciones": "",
+        "10_CantidadClase_Bultos": "",
+        "11_MarcasNumeros_Bultos": "",
+        "12_Descripcion_Bultos": "",
+        "18_Documentos": "",
+        "21_Instrucciones": "NO",
+        "22_Observaciones": "SI"
+    },
+    "manifiesto": {
+        "29_Mercancia_Descripcion": "1_LINEA",
+        "30_Mercancia_Bultos": "",
+        "31_Mercancia_Embalaje": "30_Mercancia_Bultos"
+    }
+}

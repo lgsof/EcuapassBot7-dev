@@ -1,0 +1,55 @@
+	#--------------------------------------------------------------------
+	# Get document boxes (containing document text) from PDF file
+	#--------------------------------------------------------------------
+	def getDocumentBoxesFromPdf (boxes):
+		b = boxes
+		textBoxes = {}
+		textBoxes ["txt0b"]     = boxSimple (b[1])
+		textBoxes ["txt0a"]     = boxSimple (b[1])
+		textBoxes ["txt00"]     = boxSimple (b[1])
+		textBoxes ["txt01"]     = boxLabel (b[2])
+		textBoxes ["txt02"]     = boxLabel (b[4])
+		textBoxes ["txt03"]     = boxLabel (b[7])
+		textBoxes ["txt04"]     = boxLabel (b[10])
+		textBoxes ["txt05"]     = boxLabel (b[3])
+		textBoxes ["txt06"]     = boxLabel (b[5])
+		textBoxes ["txt07"]     = boxLabel (b[6])
+		textBoxes ["txt08"]     = boxLabel (b[8])
+		textBoxes ["txt09"]     = boxLabel (b[9])
+		textBoxes ["txt10"]     = boxMercancia (b[11], b[19])
+		textBoxes ["txt11"]     = boxMercancia (b[12], b[19])
+		textBoxes ["txt12"]     = boxMercancia (b[13], b[19])
+		textBoxes ["txt13_1"]   = boxLabel (b[15])
+		textBoxes ["txt13_2"]   = boxLabel (b[16])
+		textBoxes ["txt14"]     = boxLabel (b[17], 2)
+		textBoxes ["txt15"]     = boxLabel (b[18], 2)
+		textBoxes ["txt16"]     = boxIncoterms (b[17], b[18], b[20])
+		textBoxes ["txt17_11"]  = boxGastos (b[22], 0)
+		textBoxes ["txt17_12"]  = boxGastos (b[22], 1)
+		textBoxes ["txt17_13"]  = boxGastos (b[22], 2)
+		textBoxes ["txt17_14"]  = boxGastos (b[22], 3)
+
+		textBoxes ["txt17_21"]  = boxGastos (b[23], 0)
+		textBoxes ["txt17_22"]  = boxGastos (b[23], 1)
+		textBoxes ["txt17_23"]  = boxGastos (b[23], 2)
+		textBoxes ["txt17_24"]  = boxGastos (b[23], 3)
+		
+		textBoxes ["txt17_31"]  = boxGastos (b[24], 0)
+		textBoxes ["txt17_32"]  = boxGastos (b[24], 1)
+		textBoxes ["txt17_33"]  = boxGastos (b[24], 2)
+		textBoxes ["txt17_34"]  = boxGastos (b[24], 3)
+
+		textBoxes ["txt17_41"]  = boxGastos (b[25], 0)
+		textBoxes ["txt17_42"]  = boxGastos (b[25], 1)
+		textBoxes ["txt17_43"]  = boxGastos (b[25], 2)
+		textBoxes ["txt17_44"]  = boxGastos (b[25], 3)
+
+		textBoxes ["txt18"]     = boxLabel (b[27])
+		textBoxes ["txt19"]     = boxLabel (b[29])
+		textBoxes ["txt20"]     = boxLabel (b[30])
+		textBoxes ["txt21"]     = boxLabel (b[20])
+		textBoxes ["txt22"]     = boxSimple (b[28])
+		textBoxes ["txt23"]     = boxMRN (b[11], b[12], b[19])
+
+		return textBoxes
+

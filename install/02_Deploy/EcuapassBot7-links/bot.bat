@@ -1,0 +1,1 @@
+../../../../EcuapassBot7-dev/install/03_Installer/resources/bot.bat

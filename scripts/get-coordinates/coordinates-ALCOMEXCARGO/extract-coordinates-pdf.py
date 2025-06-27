@@ -1,0 +1,1 @@
+/home/lg/BIO/iaprojects/ecuapassdocs/EcuapassBot/EcuapassBot6-dev/scripts/PDF-Coordinates/extract-coordinates-pdf.py

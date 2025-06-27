@@ -1,0 +1,15 @@
+Now, I want a python function to extractt from a string four elements: company name, document type and number, company address, and city with country. Take into account the following considerations for the extraction:
+- The company name is always the first element
+- The doc type and doc number are always the second element and they have the form given by the previous regular expression.
+- The company address are always the third element, and
+- The city and country are the last elements, and can be as the following strings:
+    CARTAGENA COLOMBIA
+    QUITO ECUADOR
+    TULCAN, ECUADOR
+    ANTIOQUIA - COLOMBIA
+    QUITO - ECUADOR
+- The countries are only three "COLOMBIA", "ECUADOR", and "PERU".
+- The cities corresponds to the ones of the respective country.
+
+
+

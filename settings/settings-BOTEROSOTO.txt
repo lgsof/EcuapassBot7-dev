@@ -1,0 +1,10 @@
+{
+    "empresa": "BOTEROSOTO",
+    "urlWebsite": "",
+    "userColombia": "",
+    "passwordColombia": "",
+    "userEcuador": "",
+    "passwordEcuador": "",
+    "userPeru": "",
+    "passwordPeru": ""
+}

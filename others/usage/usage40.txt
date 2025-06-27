@@ -1,0 +1,27 @@
+An error occurred: The specified account is disabled.
+RequestId:4bd4bb5e-c01e-0070-5117-1193ca000000
+Time:2024-09-27T19:57:05.0952961Z
+ErrorCode:AccountIsDisabled
+Content: <?xml version="1.0" encoding="utf-8"?><Error><Code>AccountIsDisabled</Code><Message>The specified account is disabled.
+RequestId:4bd4bb5e-c01e-0070-5117-1193ca000000
+Time:2024-09-27T19:57:05.0952961Z</Message></Error>
+Traceback (most recent call last):
+  File "./ecuapass_feedback.py", line 108, in list_blobs
+    for blob in container_client.list_blob_names():
+  File "/opt/miniconda3/envs/ocr/lib/python3.8/site-packages/azure/core/paging.py", line 123, in __next__
+    return next(self._page_iterator)
+  File "/opt/miniconda3/envs/ocr/lib/python3.8/site-packages/azure/core/paging.py", line 75, in __next__
+    self._response = self._get_next(self.continuation_token)
+  File "/opt/miniconda3/envs/ocr/lib/python3.8/site-packages/azure/storage/blob/_list_blobs_helper.py", line 179, in _get_next_cb
+    process_storage_error(error)
+  File "/opt/miniconda3/envs/ocr/lib/python3.8/site-packages/azure/storage/blob/_shared/response_handlers.py", line 184, in process_storage_error
+    exec("raise error from None")   # pylint: disable=exec-used # nosec
+  File "<string>", line 1, in <module>
+azure.core.exceptions.HttpResponseError: The specified account is disabled.
+RequestId:4bd4bb5e-c01e-0070-5117-1193ca000000
+Time:2024-09-27T19:57:05.0952961Z
+ErrorCode:AccountIsDisabled
+Content: <?xml version="1.0" encoding="utf-8"?><Error><Code>AccountIsDisabled</Code><Message>The specified account is disabled.
+RequestId:4bd4bb5e-c01e-0070-5117-1193ca000000
+Time:2024-09-27T19:57:05.0952961Z</Message></Error>
+

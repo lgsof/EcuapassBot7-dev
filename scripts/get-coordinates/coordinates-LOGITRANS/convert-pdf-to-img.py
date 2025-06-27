@@ -1,0 +1,1 @@
+/home/lg/BIO/iaprojects/ecuapassdocs/EcuapassBot/EcuapassBot5-dev/scripts/PDF-Coordinates/coordinates-BYZA/convert-pdf-to-img.py

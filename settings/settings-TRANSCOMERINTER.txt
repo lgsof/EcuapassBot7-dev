@@ -1,0 +1,10 @@
+{
+    "empresa": "TRANSCOMERINTER",
+    "urlWebsite": "",
+    "userColombia": "",
+    "passwordColombia": "",
+    "userEcuador": "",
+    "passwordEcuador": "",
+    "userPeru": "",
+    "passwordPeru": ""
+}

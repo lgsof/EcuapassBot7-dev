@@ -1,0 +1,1 @@
+/home/lg/BIO/ecuapassdocs/EcuapassBot/EcuapassBot6-dev/scripts/other-scripts/scripts-resources/get-coordinates/convert-pdf-to-img.py

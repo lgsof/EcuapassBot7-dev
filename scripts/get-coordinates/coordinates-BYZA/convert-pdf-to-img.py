@@ -1,0 +1,1 @@
+/home/lg/BIO/iaprojects/ecuapassdocs/EcuapassBot/bot6/EcuapassBot6-dev/scripts/scripts-PDF-Coordinates/coordinates-SANCHEZPOLO/convert-pdf-to-img.py

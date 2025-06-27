@@ -1,0 +1,63 @@
++++ getCiudadPais: text 'IPIALES - COLOMBIA'
++++ pais 'COLOMBIA'
++++ ciudad 'IPIALES'
++++ getCiudadPais: text 'IPIALES - COLOMBIA'
++++ pais 'COLOMBIA'
++++ ciudad 'IPIALES'
++++ getTipoProcedimiento : País: 'COLOMBIA'
+
++++ getDate text 'IPIALES COLOMBIA 29-11-2024'
++++ getDate results: '29-11-2024'
+
++++ Vehiculo: 'REMOLQUE' : '{'marca': None, 'anho': None, 'pais': None, 'placa': None, 'chasis': None, 'certificado': None, 'tipo': None}'
++++ VEHICULO : text : 'CH-EC-2946-24'
++++ CertificadoString: 'CH-EC-2946-24'
++++ Certificado: 'CH-EC-2946-24'
+
++++ Vehiculo: 'VEHICULO' : '{'marca': 'HYUNDAI', 'anho': '2006', 'pais': 'ECUADOR', 'placa': 'PSI0617', 'chasis': 'KMFGA17BP6C032030', 'certificado': 'CH-EC-2946-24', 'tipo': 'CAMION'}'
+
++++ MCI::getFechaNacimiento::text 'EDWIN CASTRO 19-07-69'
+
++++ getDate text 'EDWIN CASTRO 19-07-69'
+SERVER: No existe fecha en texto 'EDWIN CASTRO 19-07-69'
++++ MCI::getFechaNacimiento::fecha_nacimiento 'None'
+
++++ Conductor '{'pais': 'ECUADOR', 'tipoDoc': 'CEDULA DE IDENTIDAD', 'documento': '0400848339', 'sexo': 'Hombre', 'fecha_nacimiento': None, 'nombre': 'EDWIN CASTRO', 'licencia': '0400848339'}'
+
+>>>>>> Datos sobre la carga <<<
++++ getCiudadPais: text 'IPIALES - COLOMBIA'
++++ pais 'COLOMBIA'
++++ ciudad 'IPIALES'
++++ getCiudadPais: text 'TULCAN- ECUADOR'
++++ pais 'ECUADOR'
++++ ciudad 'TULCAN'
++++ Tipo Carga Text: 'None'
++++ getCiudadPais: text 'TULCAN - ECUADOR'
++++ pais 'ECUADOR'
++++ ciudad 'TULCAN'
++++ AduanaDestino text: 'TULCAN - ECUADOR':: ciudad, pais:: 'TULCAN', 'ECUADOR'
+
++++ Unidades de Medida: '{'pesoNeto': '303.67', 'pesoBruto': '383.52', 'volumen': None, 'otraMedida': '0'}'
++++ getCiudadPais: text 'IPIALES - COLOMBIA'
++++ pais 'COLOMBIA'
++++ ciudad 'IPIALES'
++++ AduanaDestino text: 'IPIALES - COLOMBIA':: ciudad, pais:: 'IPIALES', 'COLOMBIA'
+
++++ Incoterm text: 'USD 6412.32FCA IPIALES'
++++ getCiudadPais: text '  IPIALES'
++++ pais 'None'
++++ ciudad ''
++++ Incoterm info: '{'incoterm': 'FCA', 'precio': '6412.32', 'moneda': 'USD', 'pais': 'COLOMBIA', 'ciudad': 'IPIALES'}'
+
++++ Mercancia Info: '{'cartaporte': 'CO000211', 'descripcion': None, 'cantidad': '3', 'marcas': 'SIN MARCAS', 'embalaje': '152', 'pesoBruto': '383.52', 'pesoNeto': '303.67', 'otraMedida': None}'
+SERVER: Error configuración Cartaporte::Descripcion:
+Traceback (most recent call last):
+  File "Z:\bot7\test\commander\info\ecuapass_settings.py", line 169, in getDescripcion
+    return Extractor.getFirstLine (descripcion)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "Z:\bot7\test\commander\info\ecuapass_extractor.py", line 266, in getFirstLine
+    return text.split ("\n") [0]
+           ^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'split'
+
++++ getTipoProcedimiento : País: 'COLOMBIA'

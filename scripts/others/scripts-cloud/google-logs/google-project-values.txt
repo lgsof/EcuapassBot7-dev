@@ -1,0 +1,10 @@
+Project info
+============
+Project name
+ecuapassbot-log
+
+Project number
+709085235266
+
+Project ID
+ecuapassbot-log

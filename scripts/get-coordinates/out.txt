@@ -1,0 +1,123 @@
+Manifiesto de Carga Internacional (MCI)
+No.
+02006991
+COMUNIDAD ANDINA
+IDENTIFICACIÓN DEL TRANSPORTISTA AUTORIZADO
+1. Denominación o razón social y dirección del Transportista autorizado
+4. Marca
+5. Año de fabricación
+6. Placa y país
+7. Número o serie del chasis
+PO-CO-0018-21
+2006
+CHEVROLET
+TMU403  COLOMBIA
+9GDNPR7186B006093
+8. Certificados de Habilitación Nº.
+IDENTIFICACIÓN DE LA UNIDAD DE CARGA (REMOLQUE O SEMI-REMOLQUE)
+9. Marca
+10. Año de fabricación
+11. Placa y país
+12. Otro
+XXXXXX
+XXXXXX
+XXXXXX
+IDENTIFICACIÓN DE LA TRIPULACIÓN
+13. CONDUCTOR PRINCIPAL (Nombres y Apellidos)
+18. CONDUCTOR AUXILIAR (Nombres y Apellidos)
+14. Documento de Identidad
+15. Nacionalidad
+19. Documento de Identidad No.
+20. Nacionalidad
+87700104
+COLOMBIA
+16. Licencia de Conducir No.
+17. Libreta de Tripulante Terrestre
+21. Licencia de Conducir No.
+22. Libreta de Tripulante
+87700104
+0
+DATOS SOBRE LA CARGA
+23. Lugar y País de carga
+24. Lugar y País de descarga
+ANTONIO GERMAN ZAMBRANO
+25. NATURALEZA Y TIPO DE CARGA
+26. Números de Identificación de los contenedores y su capacidad (Indicar si
+son de 20 o 40 pies u otra)
+27. Números de los precintos aduaneros
+FURGON
+ZONA FRANCA TOCANCIPA - COLOMBIA
+TULCAN - ECUADOR
+32. Peso en Kilogramos
+Bruto
+Neto
+28
+33. Volumen en m3 u otra
+unidad de medida
+30. Cantidad
+de los bultos
+31. Tipo de embalaje y
+marca de los bultos
+29
+Descripción de las Mercancías
+OPERADOR LOGISTICO
+PO-CO-0018-21
+IDENTIFICACIÓN DEL VEHICULO HABILITADO (CAMION O TRACTO CAMION)
+SERCARGA SAS
+NIT. 860016819-5
+CL 17 NO. 69 -46 MONTEVIDEO
+PBX: 6017943332
+FAX: 6017943332
+BOGOTA
+VERSION 1
+Carta de
+Porte No
+Cabezote:
+Trailer:
+CO-0054-21
+CH-CO-051648
+2. Permiso Originario.
+3. Permiso De Prestacion De Servicios No.
+A. Peligrosa
+B. Sustancias quimicas o precursoras
+C. Perecible
+D. Otra
+GENERAL
+02207519
+58 CAJAS DE CARTON DE CARTON  CONTENIENDO
+JERRICANES PLASTICOS + 9 ESTIBAS DE MADERA
+CONTENIENDO JERRICANES PLASTICOS DE: FRAGANCIAS
+VARIAS REFERENCIAS SEGUN FACTURAS
+67
+BULTOS
+3,750
+3,257
+0
+Zona Industrial La Guacamaya Calle 121 detrás del Club Ceramica Carabobo Avenida Lizandro Alvarado, Valencia Estado Carabobo Tel:
+ECUADOR:
+VENEZUEL
+Avda. Panamericana Norte Km. 15 1/2 Vía Calderon Tels.: (0095932) 823843 / 44 / 45 / 46 - Quito
+40. Fecha de emisión
+ ABRIL 2 DE 2024
+El suscrito al hacerse cargo de las mercancías, se obliga a cumplir las disposiciones de las
+normas que conforman el ordenamiento jurídico de la Comunidad Andina de manera
+particular con la decisión 837 y su reglamento, en la presente Operación de Transporte
+Internacional por carretera
+39. Nombre, firma y sello del representante del transportista
+0102006991
+35. Observaciones de la aduana de Partida
+37. Aduana (s) de Cruce de Fronteras
+-
+IPIALES - COLOMBIA
+38. Aduana de Destino
+TULCAN - ECUADOR
+36. Firma y sello de la autoridad que interviene  en la aduana de Partida
+34. Precio de las Mercancías (INCOTERMS acordados entre las partes) y tipo de moneda
+99,638.50
+TOTAL
+3,750
+3,257
+0.0
+DOLARES
+CIP-TULCAN ECUADOR
+
