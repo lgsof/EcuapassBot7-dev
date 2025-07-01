@@ -7,7 +7,7 @@ echo %DATETIME%
 
 set PATCHFILENAME=patch_%DATETIME%.vcdiff
 
-xdelta3 -ef -s ecuapass_commander-ORG.exe ecuapass_commander-NEW.exe %PATCHFILENAME%
+xdelta3 -ef -s ecuapass_commander-ORG-Jun27.exe ecuapass_commander-NEW.exe %PATCHFILENAME%
 
 del patches\patch*
 copy %PATCHFILENAME% patches

@@ -27,6 +27,4 @@ echo ">>>" $CMM2
 echo ">>>" $CMM3
 commander/ecuapass_commander.py<<EOF
 $CMM1
-$CMM2
-$CMM3
 

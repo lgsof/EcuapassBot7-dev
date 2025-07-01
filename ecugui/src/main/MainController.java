@@ -258,6 +258,12 @@ public class MainController extends Controller {
             System.out.println("+++" + "Excepción de cierre de aplicación");
         }
     }
+    
+    @Override
+    public void onNuevaActualizacion () {
+        TopMessageDialog.show (this.getMainView(), "Existe una nueva actualización de EcuapassBot. Vuelva a iniciar.");
+        this.onWindowClosing();
+    }
 
     // Notify commander that settings were updated
     public void onSettingsUpdated() {

@@ -7,6 +7,7 @@ Send and get data from google cloud
 import os, sys, threading
 from datetime import datetime
 import base64, json
+import requests    # For updates using github release assets
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -53,6 +54,11 @@ class EcuCloud:
 	pdfsFolderId    = '1KMj34j4XEdWPmJ7l3Gkeg18y9MUTGOcw'
 	#errorsGoogleSheetFile    = "EcuapassBot-Errors"
 	googleKeyString = "ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAiY29yZS1mYWxjb24tNDQ1OTE2LW0xIiwKICAicHJpdmF0ZV9rZXlfaWQiOiAiZWExNWNhMjEwNjM0NDM2NDhhZTliY2FkODIzODAyMWQzYmQyNTJmZCIsCiAgInByaXZhdGVfa2V5IjogIi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLVxuTUlJRXZBSUJBREFOQmdrcWhraUc5dzBCQVFFRkFBU0NCS1l3Z2dTaUFnRUFBb0lCQVFDeVV4dEZEZVBUVjFuWFxucHFYQzhGR3RGdExKV2hIc1JJeFNnZ3R1ODVna0pHajJ1RVJvQTNLNlNwNG53RHNSb3Vpa3pFQm1EaEgxQk8zblxubzVIUjJrelBhd1BrSHE1SzZIcGxyazdxSTZzWlpuMzNLWlpqalBYQ25FdDNUODRlVzhObytFcHhlNUVkYlRHalxudzVBeW1OdngyK2tGVWNsT0F1N3FjOEM5bWM5MDd5SjZVU1g1ZHE1SXE4WjdFRURRRVdIc0g4SHN5M0JhUjZPSlxuYWZ5TDFMVmErUGhXZ2dIdlFzU2trS3RRanRVbXRQaW9zOU0xOGZCVTdVRmF4bFROVUJ1QW5GRy9qM0xaN3loZ1xucVVTa1VPYUhUSGp0blZRUVhCNEdWY1VxaWhJQ2FaNjh1M2RWcHZZSTRrNnN0MDBJaW5Ma0hUUDZSaGF6MXNJNlxua0pSd2xnOHRBZ01CQUFFQ2dnRUFMeGN3TTllYnFyTStCK3M3aWRPQmxoWlpXbys4L09vTExqeW1QVW41aXMzTVxucEI1Ny9nV3ZGYy9mblBxdi9wUEpJTC9KWDhubVp4QkNyUEZ1Yi83WVdzdlZUcmZsYWVXamNOZUxnbHdoOGthMVxuREFDQTlOQUVGRHpHMXY2Tm5VbTVQQzZaSmdldUJoblFTb0U1d29ySVJrRys4c2NxeEQyVkR2ZTdWYlpZNlBWTlxuRGRUQ0JsNk1qTlNNOHU4S2NuNnZJZ3VJa1dHdHh3VmptZWxqZWY2TWwzbkdsRkg2dmxQM0ZZaDFTOHZHWDFuelxuUS84dDF1UEhncUFzUTNhSEErVEJJaTVZbnR1MUdOclJ2Y3h2MFA4TU5IaHJERk1hbmxybjZpbEovNFJJTTh3ZlxubnYxTkF4WllNR0NKVWlLcmNjTjZSOE9mOFFUbk5UU3A3ZnVXd1hJMkJ3S0JnUUQ3UngzZUJYMERnWjlxak03RFxuZmNiOXhaOGlWZWRSZnhmNkkxYkM5NkhYbnZEUGFHMzFBb3hxQTAyZEl4WTF2MGtUZUhQYXJUSGp3dEIwQ3M3clxuWklpaTB2aDBmYjcvQUpmQlZKM0Q4b2dpb3JiNG9SSGxzZFpIckd3bnFkOXhOMlJROXpuWXNoUnRWdFprMk9zZFxuTGJYSmJjWGRXQVdZektRa3JZOEVaNHBma3dLQmdRQzFyUVFybGxVa2tCdmJiSjRrVFVnUkpCYS9QdTcxOThFMVxuQW9KcFg3N1QrS2pOTmNDeUpmQ2k1WnU4bWtmeVdWZU1CYlZpdzBuTll6Zi92SnBhMDA3Z3p2V3MweHJvelZMMFxud1FCM1VUZEFoaE5EZWtIcVF1WHNTWFh3UE9ScENsT0MwSDJhaFdCYTM2UFRYT25VUlRPNjl4WDcxbXN0dExxWFxuRC9JZHVvZU9Qd0tCZ0JUTDNmenlGMWFpODc2dHlLOEZTZUxXNkVTL04xWFhYdlNrMkJscXhVcERMVXI5S1p5TlxuaVhGOHRIKzgxNm03R3lFeFp1VkNVRTY1WU9jNXZjWmRtN0ZlSkpIL2xqOGtuV3F5eGh2aGhzTFhGSzJmSnd3TFxubStCeXRNRFRubHFRYXcwSWFSRTJLOXFneFQyemRrSUQ5bmVsVGlyempnTUhiTTVjVHVuZVorVmhBb0dBVWMxZVxudEZXVGJzd29qdXRnWlk0YXBnVXU3TnZrY3dJa2o3N2FnNkhsNWNId0Y3NWRUcG5BdVVoVGtGK1RoNjdzdVpLVVxuY3F6bUhVSFFwQ2tEQTJSai90dVJTVWtnczdSSDV3YkVNL1Z3d0cvZVdxTEE3VDlFRWRtZDdoY3M3Wk1GdVVBeFxuWGhNeUtKak1SazV1eHZLRjhXaHlFSndpVkVrdFB2bWlGZnE0TUxjQ2dZQk5scjZJRUhhOUszN0NidVJVSDJKRFxuMDI4bTZua01DTjhrUmNZL3M5Y1p3WlZWK29VSnRFZytQVzdoeFBFRGJDeVJRcWdOZzBGZWFCd0x1ZWV1NVdTNlxuTkdPS2ZYcHhBM3pjM3JvZTgyN3RsWHhBZmswQlVjWEE3eVlnTlUzTGUvemF4R1haZ2hTSkloK2Iva3hoQ1lHeVxuZ1BRekFaQlVHdnBjdlJFeG5LQ0M1QT09XG4tLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tXG4iLAogICJjbGllbnRfZW1haWwiOiAiZWN1YXBhc3Nib3QtbG9nc0Bjb3JlLWZhbGNvbi00NDU5MTYtbTEuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICJjbGllbnRfaWQiOiAiMTE1MDc1NTIwMjk1NTg5Njk3NDEzIiwKICAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLAogICJ0b2tlbl91cmkiOiAiaHR0cHM6Ly9vYXV0aDIuZ29vZ2xlYXBpcy5jb20vdG9rZW4iLAogICJhdXRoX3Byb3ZpZGVyX3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vb2F1dGgyL3YxL2NlcnRzIiwKICAiY2xpZW50X3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vcm9ib3QvdjEvbWV0YWRhdGEveDUwOS9lY3VhcGFzc2JvdC1sb2dzJTQwY29yZS1mYWxjb24tNDQ1OTE2LW0xLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwKICAidW5pdmVyc2VfZG9tYWluIjogImdvb2dsZWFwaXMuY29tIgp9Cg=="
+
+	# For app updates (patchs in github releases)
+	GITUSER     = "lgsof"
+	GITREPO     = "EcuapassBot7-win"
+	PATCHESLOG  = "patches/patches.log"
 
 	#----------------------------------------------------------------
 	# Trigger the logging asynchronously
@@ -256,6 +262,71 @@ class EcuCloud:
 		# Step 2: Parse the JSON string
 		jsonString    = json.loads (decoded_str)
 		return jsonString
+
+	#---------------------------------------------------------------------
+	# Check/download for new patch in github releases.
+	# Check if the patch hasn't been applied in "patches.log".
+	#---------------------------------------------------------------------
+	@classmethod
+	def checkDowloadPatchFromGit (cls):
+		API_URL  = f"https://api.github.com/repos/{cls.GITUSER}/{cls.GITREPO}/releases/latest"
+		#---------------- Local Functions --------------------------------
+		def getVersion (patchName):
+			patchVersion = patchName.split ("_")[1].split (".")[0]
+			return patchVersion
+
+		def getLastAppliedPatch (logPatchesFilename):
+			patchName = None
+			try:
+				if os.path.exists (logPatchesFilename):
+					patchLine = open (logPatchesFilename).readlines ()[0]
+					patchName = patchLine.strip ()
+			except Exception as ex:
+				Utils.printException ("No se pudo abrir el archivo de logs de actualizaciones (patches)")
+			return patchName
+
+		def downloadPatch (patch_asset, patch_name, outputDir):
+			download_url = patch_asset ["browser_download_url"]
+			outFilename  = os.path.join ("patches", patch_name)
+
+			print(f"Downloading update: {patch_name} from {download_url}")
+			with requests.get (download_url, stream=True) as r:
+				r.raise_for_status()
+				with open (outFilename, "wb") as f:
+					for chunk in r.iter_content(chunk_size=8192):
+						f.write(chunk)
+
+			print (f"Download complete: {patch_name}")
+		#-----------------------------------------------------------------
+		try:
+			print(f"Checking for updates from {API_URL}...")
+			response = requests.get(API_URL)
+			response.raise_for_status()
+			release = response.json()
+
+			# Search assets for your installer
+			patch_asset = None
+			for asset in release ["assets"]:
+				if asset["name"].lower().endswith((".vcdiff")):
+					patch_asset = asset
+					break
+
+			if not patch_asset:
+				print("No installer asset found in the latest release.")
+				return False
+				
+			lastAppliedPatch = getLastAppliedPatch (cls.PATCHESLOG)
+			patch_name       = patch_asset ["name"]
+			if lastAppliedPatch and getVersion (patch_name) <= getVersion (lastAppliedPatch):
+				print ("Lates patch is already applied:", lastAppliedPatch, "vs", patch_name)
+				return False
+
+			downloadPatch (patch_asset, patch_name, "patches")
+			print ("Restart to run autoupdate")
+			return True
+		except requests.RequestException as e:
+			print(f"Error checking for updates: {e}")
+			return False
 
 #--------------------------------------------------------------------
 # Call main 

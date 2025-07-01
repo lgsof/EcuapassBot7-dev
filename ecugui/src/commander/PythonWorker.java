@@ -41,7 +41,9 @@ public class PythonWorker extends SwingWorker<String, Void> {
             response = response.split("::", 2)[1];
             if (response.contains("initialPdfInfo")) {
                 controller.onInitialPdfInfo(response);
-            } else if (response.contains("CLOUDINSTKEY")) {
+            } else if (response.contains("Nueva actualización")) {
+                controller.onNuevaActualizacion ();
+            }else if (response.contains("CLOUDINSTKEY")) {
                 String cloudPassword = response.split("::")[1];
                 String empresa = param1;
                 String userPassword = param2;

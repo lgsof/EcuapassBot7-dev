@@ -89,7 +89,7 @@ public class PythonManager {
 
         // For testing: python .py, for production: windows .exe
         String exeProgram = "ecuapass_commander" + separator + "ecuapass_commander.exe";
-        String pyProgram = "commander" + separator + "ecuapass_commander.pyc";
+        String pyProgram = "commander" + separator + "ecuapass_commander.py";
 
         String command = "";
         String basepath = Paths.get(runningPath).getFileName().toString();

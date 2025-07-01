@@ -154,6 +154,8 @@ class EcuCmm:
 	def initApplication (empresa, version, runningDir):
 		Settings.init (empresa, version, runningDir)
 		Settings.reload ()
+		EcuCmm.cmmThread = threading.Thread (target=EcuCloud.checkDowloadPatchFromGit, args=[])
+		EcuCmm.cmmThread.start()
 		EcuCmm.cmmThread = threading.Thread (target=EcuCloud.checkAuthorizedEmpresa, args=[empresa, EcuCmm.errorsList])
 		EcuCmm.cmmThread.start()
 		print (f"+++ Verificando si empresa '{empresa}' está autorizada...")
@@ -272,6 +274,8 @@ class EcuCmm:
 	def settings_updated ():
 		Settings.reload ()
 		return "Settings actualizadas"
+
+
 
 #--------------------------------------------------------------------
 # Call main 
