@@ -13,7 +13,7 @@ public class PasswordFieldWithToggle extends JPanel {
 	public PasswordFieldWithToggle () {
 		passwordField = new JPasswordField (columns);
 		showHideButton = new JButton ("Ver");
-		showHideButton.setPreferredSize (new Dimension (90,27));
+		showHideButton.setPreferredSize (new Dimension (60,27));
 		showHideButton.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 				togglePasswordVisibility ();

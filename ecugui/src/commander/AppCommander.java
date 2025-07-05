@@ -30,18 +30,24 @@ public class AppCommander extends Controller {
     public JFrame getMainView() {
         return controller.getMainView();
     }
-    
 
-    public void notifySettingsUpdated() {
+    public void onSaveSettings (String settingsFile) {
         try {
-            String[] params = {"settings_updated", null, null, null, null};
+            String[] params = {"saved_settings", settingsFile, null, null, null};
             PythonWorker worker = new PythonWorker(this, params);
             worker.execute();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }
+    
+    @Override
+    public void onRespuestaEmpresaCodebini (String response) {
+        String empresaCodebini = response.split ("::",-1)[1];
+        String URL = response.split ("::",-1)[2];
+        controller.onRespuestaEmpresaCodebini(empresaCodebini, URL);
+    }
 
     public void getInitialPdfInfo(String pdfFilepathStr, SettingsController settingsEmpresa) {
         try {
@@ -79,11 +85,16 @@ public class AppCommander extends Controller {
     public void disableButtons() {
         controller.disableButtons();
     }
-    
 
     @Override
     public void onEndProcessing(String statusMsg, String texto) {
         controller.onEndProcessing(statusMsg, texto);
-    }    
+    }
 
+    @Override
+    public void buscarEmpresaCodebini(String codebiniName) {
+        String[] params = {"buscar_empresa_codebini", codebiniName, null, null, null};
+        PythonWorker worker = new PythonWorker(this, params);
+        worker.execute();
+    }
 }

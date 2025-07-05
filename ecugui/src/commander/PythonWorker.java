@@ -39,7 +39,9 @@ public class PythonWorker extends SwingWorker<String, Void> {
             String response = get(); // Gets the result from doInBackground()    
             controller.out (response);     
             response = response.split("::", 2)[1];
-            if (response.contains("initialPdfInfo")) {
+            if (response.contains ("respuestaEmpresaCodebini")) {
+                controller.onRespuestaEmpresaCodebini (response);
+            } else if (response.contains("initialPdfInfo")) {
                 controller.onInitialPdfInfo(response);
             } else if (response.contains("Nueva actualización")) {
                 controller.onNuevaActualizacion ();

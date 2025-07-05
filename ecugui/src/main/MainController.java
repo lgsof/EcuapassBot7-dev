@@ -4,9 +4,7 @@ import commander.AppCommander;
 import settings.FeedbackView;
 import documento.DocModel;
 import documento.DocRecord;
-import exceptions.EcuapassExceptions.AppDocAccessError;
 import pdfdocs.PdfDocument;
-import exceptions.EcuapassExceptions.PdfDocError;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +27,6 @@ import results.ResultsController;
 import widgets.ProgressDialog;
 import widgets.TopMessageDialog;
 import commander.PythonWorker;
-import exceptions.EcuapassExceptions;
 import java.util.Map;
 import settings.SettingsController;
 
@@ -80,7 +77,7 @@ public class MainController extends Controller {
         // SettingsEmpresa
         settingsController = new SettingsController(this);
         settingsController.initSettings(mainView);
-        DocModel.empresa = settingsController.getValue("datos", "empresa");
+        DocModel.empresa = settingsController.getNickname ();
 
         // Start python commander with running dir
         String[] params = {"init_application", DocModel.empresa, DocModel.runningPath, null, null};
@@ -106,7 +103,8 @@ public class MainController extends Controller {
             mainView.setController(this);
             // Init InputsView
             inputsView = new InputsView();
-            inputsView.setController(this, settingsController);
+            inputsView.setController(this);
+            inputsView.setEmpresaInfo (settingsController.getNickname (), settingsController.getUrlWeb());
 
             tabsPanel = mainView.createTabs();
             tabsPanel.addTab("Entradas:", inputsView);
@@ -205,7 +203,7 @@ public class MainController extends Controller {
     public void onOpenPdfFile() {
         Utils.openPdfFile(DocModel.selectedFilePath);
     }
-
+    
     // Message from TestEmpresaDialog
     @Override
     public void onTestingNewEmpresa(String empresa) {
@@ -264,11 +262,11 @@ public class MainController extends Controller {
         TopMessageDialog.show (this.getMainView(), "Existe una nueva actualización de EcuapassBot. Vuelva a iniciar.");
         this.onWindowClosing();
     }
-
-    // Notify commander that settings were updated
-    public void onSettingsUpdated() {
-        appCommander.notifySettingsUpdated();
-    }
+//
+//    // Notify commander that settings were updated
+//    public void onSettingsSaved() {
+//        appCommander.onSaveSettings();
+//    }
 
     private void forcedExitWithTimer(int timeInSeconds) {
         timer = new Timer(timeInSeconds * 1000, new ActionListener() {  // Timer fires after 5 seconds

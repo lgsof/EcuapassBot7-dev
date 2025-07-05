@@ -51,9 +51,9 @@ class Settings:
 	settingsFilepath  = None
 
 	# Settings saved in file
-	configData        = None
-	configCPI         = None
-	configMCI         = None
+	datos        = None
+	cartaporte         = None
+	manifiesto         = None
 
 	@classmethod
 	def init (cls, empresa, version, runningDir, settingsFile="settings.bin"):
@@ -68,7 +68,7 @@ class Settings:
 	#------------------------------------------------------------------
 	@classmethod
 	def hasCodebinWebAccess (cls):
-		if cls.configData ["appType"] == "COREBD" and cls.configData ["urlWebsite"].strip():
+		if cls.datos ["appType"] == "COREBD" and cls.datos ["urlWeb"].strip():
 			return True
 		return False
 
@@ -77,7 +77,7 @@ class Settings:
 	#------------------------------------------------------------------
 	@classmethod
 	def getCoordinatesFile (cls):
-		return cls.configData ["coordsFile"]
+		return cls.datos ["coordsFile"]
 
 	#------------------------------------------------------------------
 	#-- Check if token is contained in text
@@ -85,14 +85,14 @@ class Settings:
 	@classmethod
 	def checkEmpresaToken (cls, tokenText):
 		from info.ecuapass_exceptions import IllegalEmpresaException
-		tokenString = cls.configData ["token"]
+		tokenString = cls.datos ["token"]
 		tokens		= tokenString.split ("|") # if more than one token
 		print (f"+++ tokenText '{tokenText}'")
 		for tk in tokens:
 			print (f"+++ token '{tk}'")
 
 			if tk in tokenText:
-				return cls.configData ["id"]
+				return cls.datos ["nickname"]
 
 		raise IllegalEmpresaException (f"PDFERROR::Token no reconocido en empresa: '{cls.empresa}'")
 	
@@ -105,7 +105,7 @@ class Settings:
 		from info.ecuapass_utils import Utils
 		permisoEmpresa = None
 		try:
-			permisoEmpresa = cls.configData ["permiso"]
+			permisoEmpresa = cls.datos ["permiso"]
 			permisosList   = permisoEmpresa.split ("|")
 			for p in permisosList:
 				permiso     = Utils.removeSymbols (p)
@@ -120,8 +120,8 @@ class Settings:
 			Utils.printException ('SCRAPERROR::Empresa no reconocida:', cls.empresa)
 			raise
 		except Exception as ex:
-			Utils.printException ('Problemas validando la empresa:', cls.empresa)
-			raise IllegalEmpresaException (f"SCRAPERROR::Problemas validando empresa: '{empresa}'!") from ex
+			Utils.printException ('Problemas validando permisos de la empresa:', cls.empresa)
+			raise IllegalEmpresaException (f"SCRAPERROR::Problemas validando permisos de la empresa: '{empresa}'!") from ex
 
 
 	#------------------------------------------------------
@@ -133,11 +133,11 @@ class Settings:
 	def get (cls, keyType, key):
 		try:
 			if keyType == "DATA":
-				return cls.configData [key].strip()
+				return cls.datos [key].strip()
 			elif keyType == "CPI":
-				return cls.configCPI [key].strip()
+				return cls.cartaporte [key].strip()
 			elif keyType == "MCI":
-				return cls.configMCI [key].strip()
+				return cls.manifiesto [key].strip()
 			else:
 				raise Exception ("No existe llave:", key)
 		except Exception as ex:
@@ -208,18 +208,12 @@ class Settings:
 		decoded_bytes  = base64.b64decode (base64_dict)
 		json_string    = decoded_bytes.decode ('utf-8')
 		settings = json.loads(json_string)
-		cls.configData = settings ["datos"]
-		cls.configCPI  = settings ["cartaporte"]
-		cls.configMCI  = settings ["manifiesto"]
+		cls.datos = settings ["datos"]
+		cls.cartaporte  = settings ["cartaporte"]
+		cls.manifiesto  = settings ["manifiesto"]
 
 		return settings
 
-	#------------------------------------------------------
-	#------------------------------------------------------
-	@classmethod
-	def reload (cls):
-		return cls.readBinSettings ()
-	
 	#------------------------------------------------------
 	#------------------------------------------------------
 	@classmethod

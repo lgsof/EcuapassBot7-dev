@@ -37,7 +37,6 @@ public class DocModel {
 		docsPath = this.getDocsPath ();
 		temporalPath = this.getTemporalDir (docsPath);
 		runningPath = Utils.convertToOSPath (System.getProperty ("user.dir"));
-		//resourcesPath = Utils.getResourcePath (this, "");
 		resourcesPath = Paths.get (runningPath, "resources").toString();
 	}
 

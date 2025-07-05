@@ -231,7 +231,7 @@ public final class ImageViewLens extends javax.swing.JPanel {
 		imgFrame.setSize (800, 600);
 		imgFrame.setLocationRelativeTo (null);
 		imgFrame.setVisible (true);
-		imgPanel.showImage (new File ("CPI-LOGITRANS-EC56031181.pdf"));
+		imgPanel.showImage (new File ("CPI-AGENCOMEXCARGO-TEST-CO001726.pdf"));
 	}
 
 }

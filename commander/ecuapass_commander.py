@@ -12,6 +12,7 @@ import os, sys, time, json, threading
 from info.ecuapass_utils import Utils
 from info.ecuapass_info import EcuInfo
 from info.ecuapass_exceptions import *
+
 from version import APP_VERSION
 
 from info.ecuapass_cloud   import EcuCloud 
@@ -19,8 +20,7 @@ from info.ecuapass_settings import Settings    # Config class
 
 from ecuapass_doc import EcuDoc
 from ecuapass_bot import EcuBot
-from scraping     import ScrapingDocWeb
-from scraping     import ScrapingDoc
+from scraping     import ScrapingDoc, ScrapingDocWeb
 
 #----------------------------------------------------------------
 # Definitions
@@ -42,7 +42,7 @@ def main ():
 		try:
 			# Read input from Java client
 			params = input().strip().split("|")
-			print (f"+++ params: '{params:}'")
+			print (f"+++ params: '{params}'")
 			if 'exit' in params:
 				sys.exit (0)
 
@@ -51,7 +51,10 @@ def main ():
 
 			response = None
 			# Set initial app values: empresa, version, runningDir
-			if service == "init_application":
+			if service == "buscar_empresa_codebini":
+				response = EcuCmm.buscarEmpresaCodebini (codebiniId=params [1])
+
+			elif service == "init_application":
 				response = EcuCmm.initApplication (empresa=param1, version=getAppVersion (), runningDir=param2)
 
 			elif service == "get_initial_pdf_info":
@@ -84,8 +87,8 @@ def main ():
 				response = EcuCmm.stop_application (runningDir=param1)
 
 			# When settings (data, config) are modified from GUI 
-			elif (service == "settings_updated"):
-				response = EcuCmm.settings_updated ()
+			elif (service == "saved_settings"):
+				response = EcuCmm.onSavedSettings (settingsFile=params[1])
 
 			elif (service == "exit"):
 				sys.exit (0)
@@ -153,19 +156,30 @@ class EcuCmm:
 	# Set initial app values: empresa, version, runningDir
 	def initApplication (empresa, version, runningDir):
 		Settings.init (empresa, version, runningDir)
-		Settings.reload ()
-		EcuCmm.cmmThread = threading.Thread (target=EcuCloud.checkDowloadPatchFromGit, args=[])
-		EcuCmm.cmmThread.start()
-		EcuCmm.cmmThread = threading.Thread (target=EcuCloud.checkAuthorizedEmpresa, args=[empresa, EcuCmm.errorsList])
-		EcuCmm.cmmThread.start()
-		print (f"+++ Verificando si empresa '{empresa}' está autorizada...")
+		Settings.readBinSettings ()
+		#EcuCmm.cmmThread = threading.Thread (target=EcuCloud.checkDowloadPatchFromGit, args=[])
+		#EcuCmm.cmmThread.start()
+		#EcuCmm.cmmThread = threading.Thread (target=EcuCloud.checkAuthorizedEmpresa, args=[empresa, EcuCmm.errorsList])
+		#EcuCmm.cmmThread.start()
+		EcuCloud.runEventAuthorizedEmpresa (empresa)
+		#print (f"+++ Verificando si empresa '{empresa}' está autorizada...")
 		response = "Applicación iniciada!"
 		return response
 	            
+	# Search full empresa name (accessing coredb web) from codebini Id
+	def buscarEmpresaCodebini (codebiniId):
+		fullName, URL = ScrapingDocWeb.buscarEmpresaCodebini (codebiniId)
+		response = f"respuestaEmpresaCodebini::{fullName}::{URL}"
+		#response = f"respuestaEmpresaCodebini::ALCOMEXCARGO S.A.::https://alcomexcargo.coredb.net"
+		return response
+
 	def getInitialPdfInfo (pdfFilepath, empresa):
-		EcuCmm.cmmThread.join ()
-		for e in EcuCmm.errorsList:
-			raise e
+		#EcuCmm.cmmThread.join ()
+		#for e in EcuCmm.errorsList:
+		#	raise e
+
+		EcuCloud.checkEventAuthorizedEmpresa ()
+
 		scrapingPdf       = ScrapingDoc.creatingScrapingDocObject (pdfFilepath, empresa, None, None)
 		pdfInfo           = scrapingPdf.getInitialPdfInfo ()
 		pdfInfoResponse   = {"initialPdfInfo" : pdfInfo}
@@ -271,9 +285,9 @@ class EcuCmm:
 	#----------------------------------------------------------------
 	# Settings updated in GUI (data and config)
 	#----------------------------------------------------------------
-	def settings_updated ():
-		Settings.reload ()
-		return "Settings actualizadas"
+	def onSavedSettings (settingsFile):
+		Settings.readBinSettings (settingsFile)
+		return "Settings cargadas "
 
 
 

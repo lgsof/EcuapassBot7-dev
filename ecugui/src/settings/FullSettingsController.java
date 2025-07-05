@@ -7,8 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import commander.AppCommander;
+import commander.PythonWorker;
 import documento.DocModel;
 import exceptions.EcuapassExceptions;
 import exceptions.EcuapassExceptions.SettingsError;
@@ -18,6 +19,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -27,26 +29,28 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import main.Controller;
 
-public class SettingsController extends Controller {
+public class FullSettingsController extends Controller {
 
     File settingsFile = new File(DocModel.runningPath + "/settings.bin");
     Map settings;
-    SettingsPanel settingsPanel;
+    FullSettingsPanel settingsPanel;
 
     Controller controller;
-    AppCommander appCommander;     // Sends and Handle Python commander events
 
-    public SettingsController(main.Controller controller) {
+    public FullSettingsController(main.Controller controller) {
         this.controller = controller;
-        // Init Java AppCommander
-        appCommander = new AppCommander(this);
     }
-    
+
+    @Override
+    public JFrame getMainView() {
+        return controller.getMainView();
+    }
+
     // First time initialization. 
     // If settings.bin exists then read it, else, read and update old "txt" or create a new
     public void initSettings(JFrame parent) throws EcuapassExceptions.SettingsError {
         this.settings = null;
-        settingsPanel = new SettingsPanel();
+        settingsPanel = new FullSettingsPanel();
         settingsPanel.setController(this);
         if (this.settingsFile.exists()) {
             this.settings = this.readBinSettings();
@@ -56,30 +60,25 @@ public class SettingsController extends Controller {
             settingsPanel.showAsDialog(parent);
             System.exit(0);
         }
-    }    
-
-    @Override
-    public JFrame getMainView() {
-        return controller.getMainView();
     }
-
-    @Override
-    public void buscarEmpresaCodebini(String codebiniId) {
-        appCommander.buscarEmpresaCodebini(codebiniId);
-    }
-
-    @Override
-    public void onRespuestaEmpresaCodebini(String empresaCodebini, String URL) {
-        if (empresaCodebini.isEmpty()) {
-            JOptionPane.showMessageDialog(getMainView(), "Empresa NO encontrada!. Revise el nombre.", "Alerta", JOptionPane.WARNING_MESSAGE);
-        } else {
-            settingsPanel.setEmpresaCodebini(empresaCodebini, URL);
-        }
-    }
-
 
     public void showAsDialog(JFrame parent) {
         settingsPanel.showAsDialog(parent);
+    }
+
+    // Event from SettingsPanel
+    public void onHabilitarIngreso(String empresa, String password) {
+        empresa = empresa.trim();
+        password = password.trim();
+        if (empresa.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(settingsPanel, "Usuario o Contraseña Inválida!", "Verificación de Acceso", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        settingsPanel.setNickname(empresa);
+        // Get install key from cloud using the commander
+        String[] params = {"get_installkey_cloud", empresa, password, null, null};
+        PythonWorker worker = new PythonWorker(this, params);
+        worker.execute();
     }
 
     @Override
@@ -103,24 +102,13 @@ public class SettingsController extends Controller {
     }
 
     public void onSaveSettings(Map settings) {
+        this.settings = settings;
         if (this.checkForValidSettings(settings) == false) {
             return;
         }
-        this.settings = settings;
-        this.writeBinSettings(settings);
-        appCommander.onSaveSettings (this.settingsFile.toString());
-//        controller.onSettingsSaved(); // Notify to Commander
-        JOptionPane.showMessageDialog(settingsPanel, "Información Guardada!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-    }
 
-    // Update Data/Document configuration
-//    public void onUpdateSettings(Map settings) {
-//        this.writeBinSettings(settings);
-//        if (this.settings != null) {
-//            controller.onSettingsSaved(); // Notify to Commander
-//        }
-//        this.settings = settings;
-//    }
+        this.writeBinSettings(settings);
+    }
 
     public void onSendFeedback(String feedbackText) {
         controller.onSendFeedback(feedbackText);
@@ -138,7 +126,7 @@ public class SettingsController extends Controller {
             }.getType();
             return new Gson().fromJson(jsonString, type);
         } catch (Exception ex) {
-            Logger.getLogger(SettingsController.class
+            Logger.getLogger(FullSettingsController.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -162,13 +150,13 @@ public class SettingsController extends Controller {
             System.out.println(">>> Guardando archivo de configuracion: " + settingsFile);
 
         } catch (IOException ex) {
-            Logger.getLogger(SettingsController.class
+            Logger.getLogger(FullSettingsController.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return settings;
     }
 
-    public SettingsPanel getSettingsPanel() {
+    public FullSettingsPanel getSettingsPanel() {
         return settingsPanel;
     }
 
@@ -182,33 +170,21 @@ public class SettingsController extends Controller {
     }
 
     public boolean checkForValidSettings(Map settings) {
-        if (this.getSettingsValue (settings, "datos", "nickname").equals("")) {
+        if (getValue("datos", "empresa").equals("")) {
             JOptionPane.showMessageDialog(null, "Nombre de empresa inválido");
             return false;
         }
         return true;
     }
-    
-    public String getNickname () {
-        return this.getSettingsValue ("datos", "nickname");
-    }
-    public String getUrlWeb () {
-        return this.getSettingsValue ("datos", "urlWeb");
-    }
 
     // Get value from "settings.json" file located in "runningPath"
-    public String getSettingsValue(String key1, String key2) {
-        return this.getSettingsValue (this.settings, key1, key2);
-    }
-    public String getSettingsValue(Map settings, String key1, String key2) {
+    public String getValue(String key1, String key2) {
         Map parentMap = (LinkedHashMap<String, String>) settings.get(key1);
         String value = (String) parentMap.get(key2);
         return value;
     }
-    public Map getSettingsValue(String key1) {
-        return this.getSettingsValue (this.settings, key1);
-    }
-    public Map getSettingsValue(Map settings, String key1) {
+
+    public Map getValue(String key1) {
         Map parentMap = (LinkedHashMap) settings.get(key1);
         return parentMap;
     }
@@ -243,6 +219,17 @@ public class SettingsController extends Controller {
     @Override
     public void disableButtons() {
         this.controller.disableButtons();
+    }
+
+    /*--------------------------------------------------
+     * Update Data/Document configuration
+     * ------------------------------------------------*/
+    public void onUpdateSettings (Map settings) {
+        this.writeBinSettings (settings);
+        if (this.settings != null) {
+            controller.onSettingsSaved(); // Notify to Commander
+        }
+        this.settings = settings;
     }
 
     // Print to feedback panel in settings panel

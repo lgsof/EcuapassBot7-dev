@@ -3,8 +3,10 @@ package settings;
 import com.google.gson.JsonObject;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import main.Controller;
 
 public class CredentialsPanel extends javax.swing.JPanel {
+    Controller controller;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -15,9 +17,6 @@ public class CredentialsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        urlLabel = new javax.swing.JLabel();
-        urlField = new javax.swing.JTextField();
         credentialsTabsPanel = new javax.swing.JTabbedPane();
         colombiaTabPanel = new javax.swing.JPanel();
         colombiaPanel = new settings.UserPasswordPanel();
@@ -26,21 +25,13 @@ public class CredentialsPanel extends javax.swing.JPanel {
         peruTabPanel = new javax.swing.JPanel();
         peruPanel = new settings.UserPasswordPanel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder("Credenciales de Acceso:"));
+        setBorder(javax.swing.BorderFactory.createTitledBorder("Credenciales de Usuarios:"));
         setLayout(new java.awt.BorderLayout());
 
-        urlLabel.setText("URL Website:");
-        jPanel1.add(urlLabel);
+        credentialsTabsPanel.setBorder(null);
 
-        urlField.setMinimumSize(new java.awt.Dimension(350, 27));
-        urlField.setPreferredSize(new java.awt.Dimension(350, 27));
-        jPanel1.add(urlField);
-
-        add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
-        credentialsTabsPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        colombiaTabPanel.add(colombiaPanel);
+        colombiaTabPanel.setLayout(new java.awt.BorderLayout());
+        colombiaTabPanel.add(colombiaPanel, java.awt.BorderLayout.CENTER);
 
         credentialsTabsPanel.addTab("Colombia", colombiaTabPanel);
 
@@ -64,18 +55,14 @@ public class CredentialsPanel extends javax.swing.JPanel {
     private javax.swing.JTabbedPane credentialsTabsPanel;
     private settings.UserPasswordPanel ecuadorPanel;
     private javax.swing.JPanel ecuadorTabPanel;
-    private javax.swing.JPanel jPanel1;
     private settings.UserPasswordPanel peruPanel;
     private javax.swing.JPanel peruTabPanel;
-    private javax.swing.JTextField urlField;
-    private javax.swing.JLabel urlLabel;
     // End of variables declaration//GEN-END:variables
 
     // Return settings displayed on the panel
     public Map getValues() {
         // Create a JSON object
         Map<String, String> settings = new LinkedHashMap();
-        settings.put("urlWebsite", urlField.getText());
         settings.put("userColombia", colombiaPanel.getUser());
         settings.put("passwordColombia", colombiaPanel.getPassword());
         settings.put("userEcuador", ecuadorPanel.getUser());
@@ -86,7 +73,6 @@ public class CredentialsPanel extends javax.swing.JPanel {
     }
 
     public void setValues (Map settings) {
-        urlField.setText ((String) settings.get ("urlWebsite"));
         colombiaPanel.setUser((String) settings.get ("userColombia"));
         colombiaPanel.setPassword((String) settings.get ("passwordColombia"));
         ecuadorPanel.setUser((String) settings.get ("userEcuador"));
@@ -99,14 +85,11 @@ public class CredentialsPanel extends javax.swing.JPanel {
     public CredentialsPanel() {
         initComponents();
     }
-
-    public String getUrlWebsite() {
-        return urlField.getText();
+    
+    public void setController(SettingsController controller) {
+        this.controller = controller;
     }
-
-    public void setUrlWebsite(String urlWebsite) {
-        urlField.setText(urlWebsite);
-    }
+    
 
     public String getUserColombia() {
         return (this.colombiaPanel.getUser());

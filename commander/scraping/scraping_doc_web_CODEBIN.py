@@ -111,7 +111,7 @@ class ScrapingDocWeb_CODEBIN (ScrapingDocWeb):
 	def openWebsite (self):
 		try:
 			print (f"+++ CODEBIN: ...Abriendo sitio web de la empresa '{self.empresa}'")
-			self.webdriver.get (self.urlWebsite)
+			self.webdriver.get (self.urlWeb)
 			submit_button = self.webdriver.find_element (By.XPATH, "//input[@type='submit']")
 			submit_button.click()
 
@@ -171,7 +171,7 @@ class ScrapingDocWeb_CODEBIN (ScrapingDocWeb):
 	def getWebSettings (self):
 		urlPrefix   = self.docInfo.urlPrefix
 		webSettings = {}
-		webSettings ["urlWebsite"] = f"https://{urlPrefix}.corebd.net"
+		webSettings ["urlWeb"] = f"https://{urlPrefix}.corebd.net"
 
 		if self.docType == "CARTAPORTE":
 			webSettings ["link"]    = f"https://{urlPrefix}.corebd.net/1.cpi/nuevo.cpi.php?modo=3&idunico=%s"
@@ -193,14 +193,14 @@ class ScrapingDocWeb_CODEBIN (ScrapingDocWeb):
 	#----------------------------------------------------------------
 	def getDocFields (self, codebinFields, X):
 		docFields = super().getDocFields (codebinFields, "codebinField")
-		docFields ["00_DocPermiso"] = Settings.configData ["permiso"]
+		docFields ["00_DocPermiso"] = Settings.datos ["permiso"]
 		return docFields
 
 	#------------------------------------------------------
 	# Take into account pais and distrito
 	#------------------------------------------------------
 	def getUserPassword (self):
-		settingsData = Settings.configData
+		settingsData = Settings.datos
 
 		user, password, distrito = None, None, None
 		if self.pais  == "COLOMBIA" and self.distrito == "TULCAN":

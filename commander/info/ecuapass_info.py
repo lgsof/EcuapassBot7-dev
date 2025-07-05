@@ -22,7 +22,7 @@ class EcuInfo:
 		#self.fields			   = ecudocFields	# Called when predicting values
 
 		self.inputsParametersFile = Utils.getInputsParametersFile (docType)
-		self.empresaInfo		  = Settings.configData	
+		self.empresaInfo		  = Settings.datos	
 		self.ecudoc				  = {}						 # Ecuapass doc fields (CPI, MCI, DTI)
 		runningDir				  = os.getcwd ()
 		self.resourcesPath		  = os.path.join (runningDir, "resources", "data_ecuapass") 
@@ -136,8 +136,8 @@ class EcuInfo:
 		return self.fields
 
 	#-- Get id (short name: NTA, BYZA, LOGITRANS)
-	def getIdEmpresa (self):
-		return self.empresaInfo ["id"]
+	def getNicknameEmpresa (self):
+		return self.empresaInfo ["nickname"]
 
 	def getIdNumeroEmpresa (self):
 		id = self.empresaInfo ["idNumero"]

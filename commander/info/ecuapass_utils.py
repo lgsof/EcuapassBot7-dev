@@ -206,10 +206,14 @@ class Utils:
 		stackTrace = ''.join(traceback.format_exc())
 		orgMessage = f"{message}:\n{stackTrace}"
 		Utils.printx (orgMessage)
+		open ("log-exceptions.log", "a").write (orgMessage)
 
 		from info.ecuapass_cloud import EcuCloud 
 		from info.ecuapass_settings import Settings 
 		EcuCloud.sendLog (Settings.empresa, Settings.version, orgMessage, logType="errors")
+
+	def log (message, type="a", logFilename="log-running.log"):
+		open (logFilename, type).write (message+"\n")
 
 
 	#-- Print var value 	

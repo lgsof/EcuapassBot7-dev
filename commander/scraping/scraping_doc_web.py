@@ -51,7 +51,7 @@ def main ():
 class ScrapingDocWeb (ScrapingDoc):
 	def __init__ (self, pdfFilepath, empresa, pais, distrito):
 		super().__init__ (pdfFilepath, empresa, pais, distrito)
-		self.urlWebsite          = Settings.configData ["urlWebsite"]
+		self.urlWeb          = Settings.datos ["urlWeb"]
 		self.user, self.password = self.getUserPassword ()
 		self.webSettings         = None       # Defined in child classes
 		ScrapingDocWeb.loadWebdriver ()
@@ -172,6 +172,28 @@ class ScrapingDocWeb (ScrapingDoc):
 		ScrapingDocWeb.LAST_PAIS = ""
 		ScrapingDocWeb.DOC_FOUND = False
 		ScrapingDocWeb.webdriver = None
+
+	#-------------------------------------------------------------------
+	#-------------------------------------------------------------------
+	@classmethod
+	def buscarEmpresaCodebini (cls, codebiniId):
+		cls.loadWebdriver ()
+		driver = cls.webdriver
+		url = f"https://{codebiniId.lower()}.corebd.net"
+
+		driver.set_page_load_timeout(15)
+		try:
+			driver.get (url)
+			title = driver.title
+		except Exception as ex:
+			Utils.printException ("No se pudo extraer nombre empresa desde página Codebini:", codebiniId)
+			title = "", ""
+		finally:
+			driver.quit()
+			del cls.webdriver
+			
+		return title, url
+
 
 #-----------------------------------------------------------
 # Call to main

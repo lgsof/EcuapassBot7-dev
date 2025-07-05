@@ -178,8 +178,8 @@ class ScrapingDocWeb_ALDIA (ScrapingDocWeb):
 	#-------------------------------------------------------------------
 	#-------------------------------------------------------------------
 	def getUserPassword (self):
-		user      = Settings.configData ["userColombia"]
-		password  = Settings.configData ["passwordColombia"]
+		user      = Settings.datos ["userColombia"]
+		password  = Settings.datos ["passwordColombia"]
 		return user, password
 
 	#-------------------------------------------------------------------
@@ -218,7 +218,7 @@ class ScrapingDocWeb_ALDIA (ScrapingDocWeb):
 	def openWebsite (self):
 		try:
 			print (f"+++ ALDIA: ...Abriendo sitio web de la empresa '{self.empresa}'...")
-			self.webdriver.get (self.webSettings ["urlWebsite"])
+			self.webdriver.get (self.webSettings ["urlWeb"])
 #			submit_button = self.webdriver.find_element(By.XPATH, "//input[@type='submit']")
 #			submit_button.click()
 #
@@ -236,7 +236,7 @@ class ScrapingDocWeb_ALDIA (ScrapingDocWeb):
 	#-------------------------------------------------------------------
 	def getWebSettings (self):
 		webSettings = {}
-		webSettings ["urlWebsite"] = "https://siat.aldialogistica.net/aldia/modulos/cpic/index.php"
+		webSettings ["urlWeb"] = "https://siat.aldialogistica.net/aldia/modulos/cpic/index.php"
 		webSettings ["associatedCompany"] = "01 SERCARGA SAS"
 		webSettings ["urlCartaporte"] = "https://siat.aldialogistica.net/aldia/modulos/cpic/index.php"   
 

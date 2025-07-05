@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package settings;
 
 import exceptions.EcuapassExceptions;
@@ -24,23 +20,23 @@ public class SettingsPanel extends javax.swing.JPanel {
 
     public SettingsPanel() {
         initComponents();
-        Utils.applyUppercaseNoSpaces(empresaField);
-        this.passwordField.setText("112233");
-        enableSettings(false);
-
+        //enableSettings(false);
+        this.configTabs.setEnabledAt(1, false);
+        this.configTabs.setEnabledAt(2, true);
     }
 
     public void setController(SettingsController controller) {
         this.controller = controller;
+        this.empresaPanel.setController (this.controller);
+        this.credentialsPanel.setController (this.controller);
     }
 
     // Return settings displayed on the panel
-    public Map getDataValues() {
+    public Map getValues() {
         // Create a JSON object
         LinkedHashMap<String, String> settingsDatos = new LinkedHashMap<>();
-        settingsDatos.put("empresa", empresaField.getText());
-        settingsDatos.putAll(datosPanel.getValues());
-        settingsDatos.putAll(credentialsPanel.getValues());
+        settingsDatos.putAll (this.empresaPanel.getValues());
+        settingsDatos.putAll (this.credentialsPanel.getValues());
 
         return settingsDatos;
     }
@@ -48,15 +44,20 @@ public class SettingsPanel extends javax.swing.JPanel {
     // Set values to data values
     public void setValues(Map settings) throws EcuapassExceptions.SettingsError {
         try {
-            empresaField.setText(controller.getValue("datos", "empresa"));
-            datosPanel.setValues(controller.getValue("datos"));
-            credentialsPanel.setValues(controller.getValue("datos"));
-            configPanelCartaporte.setValues(controller.getValue("cartaporte"));
-            configPanelManifiesto.setValues(controller.getValue("manifiesto"));
+            this.empresaPanel.setValues (controller.getSettingsValue ("datos"));
+            credentialsPanel.setValues(controller.getSettingsValue("datos"));
+            configPanelCartaporte.setValues(controller.getSettingsValue("cartaporte"));
+            configPanelManifiesto.setValues(controller.getSettingsValue("manifiesto"));
         } catch (Exception ex) {
             Logger.getLogger(SettingsController.class.getName()).log(Level.SEVERE, null, ex);
             throw new EcuapassExceptions.SettingsError("Error leyendo configuración de empresa");
         }
+    }
+    
+    // Fill settings with empresa full name and codebini URL
+    void setEmpresaCodebini(String empresaCodebini, String URL) {
+        this.empresaPanel.setFullName (empresaCodebini);
+        this.empresaPanel.setUrl (URL);
     }
 
     /**
@@ -67,114 +68,33 @@ public class SettingsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        feedbackView = new settings.FeedbackView();
-        settingsSplitPanel = new javax.swing.JSplitPane();
-        containerPanelData = new javax.swing.JPanel();
+        configTabs = new javax.swing.JTabbedPane();
         panelData = new javax.swing.JPanel();
-        ingresoPanel = new javax.swing.JPanel();
-        empresaLabel = new javax.swing.JLabel();
-        empresaField = new javax.swing.JTextField();
-        passwordLabel = new javax.swing.JLabel();
-        passwordField = new settings.PasswordFieldWithToggle();
-        enableSettingsButton = new javax.swing.JButton();
-        datosPanel = new settings.DatosPanel();
+        empresaPanel = new settings.EmpresaPanel();
+        jSeparator1 = new javax.swing.JSeparator();
         credentialsPanel = new settings.CredentialsPanel();
         containerPanelConfig = new javax.swing.JTabbedPane();
         tabCartaportePanel = new javax.swing.JPanel();
         configPanelCartaporte = new settings.ConfigPanelCartaporte();
         tabManifiestoPanel = new javax.swing.JPanel();
         configPanelManifiesto = new settings.ConfigPanelManifiesto();
+        feedbackView = new settings.FeedbackView();
         panelSaveCancel = new javax.swing.JPanel();
         guardarButton = new javax.swing.JButton();
         salirButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
-        add(feedbackView, java.awt.BorderLayout.PAGE_START);
 
-        containerPanelData.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Empresa:"));
-        containerPanelData.setLayout(new java.awt.BorderLayout());
+        panelData.setLayout(new javax.swing.BoxLayout(panelData, javax.swing.BoxLayout.Y_AXIS));
+        panelData.add(empresaPanel);
 
-        panelData.setLayout(new java.awt.GridBagLayout());
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator1.setPreferredSize(new java.awt.Dimension(50, 30));
+        panelData.add(jSeparator1);
+        panelData.add(credentialsPanel);
 
-        ingresoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingreso:"));
-        ingresoPanel.setEnabled(false);
-        ingresoPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        ingresoPanel.setLayout(new java.awt.GridBagLayout());
-
-        empresaLabel.setText("Empresa:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        ingresoPanel.add(empresaLabel, gridBagConstraints);
-
-        empresaField.setText("ALCOMEXCARGO");
-        empresaField.setMinimumSize(new java.awt.Dimension(100, 27));
-        empresaField.setPreferredSize(new java.awt.Dimension(15, 27));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 137;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        ingresoPanel.add(empresaField, gridBagConstraints);
-
-        passwordLabel.setText("Contraseña:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        ingresoPanel.add(passwordLabel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        ingresoPanel.add(passwordField, gridBagConstraints);
-
-        enableSettingsButton.setText("Habilitar");
-        enableSettingsButton.setPreferredSize(new java.awt.Dimension(150, 26));
-        enableSettingsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableSettingsButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 5;
-        ingresoPanel.add(enableSettingsButton, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.3;
-        panelData.add(ingresoPanel, gridBagConstraints);
-
-        datosPanel.setMinimumSize(new java.awt.Dimension(500, 244));
-        datosPanel.setPreferredSize(new java.awt.Dimension(500, 244));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.4;
-        panelData.add(datosPanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.2;
-        panelData.add(credentialsPanel, gridBagConstraints);
-
-        containerPanelData.add(panelData, java.awt.BorderLayout.CENTER);
-
-        settingsSplitPanel.setLeftComponent(containerPanelData);
+        configTabs.addTab("Empresa", panelData);
 
         containerPanelConfig.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración:"));
         containerPanelConfig.setPreferredSize(new java.awt.Dimension(400, 100));
@@ -193,9 +113,10 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         containerPanelConfig.addTab("Manifiesto", tabManifiestoPanel);
 
-        settingsSplitPanel.setRightComponent(containerPanelConfig);
+        configTabs.addTab("Configuración", containerPanelConfig);
+        configTabs.addTab("Feedback", feedbackView);
 
-        add(settingsSplitPanel, java.awt.BorderLayout.CENTER);
+        add(configTabs, java.awt.BorderLayout.CENTER);
 
         panelSaveCancel.setEnabled(false);
         panelSaveCancel.setOpaque(false);
@@ -234,19 +155,8 @@ public class SettingsPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_salirButtonActionPerformed
 
-    private void enableSettingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableSettingsButtonActionPerformed
-        String text = this.enableSettingsButton.getText();
-        if (text.equals("Habilitar")) {
-            controller.onHabilitarIngreso(this.getEmpresa(), this.getPassword());
-        } else {
-            this.enableSettings(false);
-        }
-
-        this.passwordField.setText("");
-    }//GEN-LAST:event_enableSettingsButtonActionPerformed
-
     private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
-        Map datosValues = this.getDataValues();
+        Map datosValues = this.getValues();
         Map cartaporteValues = configPanelCartaporte.getValues();
         Map manifiestoValues = configPanelManifiesto.getValues();
 
@@ -254,35 +164,19 @@ public class SettingsPanel extends javax.swing.JPanel {
         settings.put("datos", datosValues);
         settings.put("cartaporte", cartaporteValues);
         settings.put("manifiesto", manifiestoValues);
-        controller.onUpdateSettings(settings);
+        controller.onSaveSettings (settings);
         this.configPanelCartaporte.resetButtonColors();
         this.configPanelManifiesto.resetButtonColors();
     }//GEN-LAST:event_guardarButtonActionPerformed
 
-    private void enableComponentsPanel(Container container, boolean enableFlag) {
-        container.setEnabled(enableFlag);
-        Component[] components = container.getComponents();
-        for (Component component : components) {
-            component.setEnabled(enableFlag);
-            if (component instanceof Container) {
-                enableComponentsPanel((Container) component, enableFlag);
-            }
-        }
+    public void enableSettings(boolean enableFlag) {
+        Utils.enableComponentsPanel(this, enableFlag);
+        Utils.enableComponentsPanel(this.credentialsPanel, enableFlag);
+        Utils.enableComponentsPanel(this.empresaPanel, true);
+        Utils.enableComponentsPanel(this.feedbackView, false);
+        this.configTabs.setEnabledAt(2, false);
     }
 
-    public String getEmpresa() {
-        String empresa = this.empresaField.getText().trim();
-        return empresa;
-    }
-
-    public String getPassword() {
-        String password = passwordField.getText().trim();
-        return password;
-    }
-
-    public void setNickname(String nickname) {
-        datosPanel.setNickname(nickname);
-    }
 
     // Method to show the panel as a dialog
     public void showAsDialog(JFrame parent) {
@@ -295,42 +189,19 @@ public class SettingsPanel extends javax.swing.JPanel {
         settingsDialog.setVisible(true);
     }
 
-    public void enableSettings(boolean enableFlag) {
-        this.enableComponentsPanel(this, enableFlag);
-        this.enableComponentsPanel(this.datosPanel, enableFlag);
-        this.datosPanel.enableNickname(false);
-        this.enableComponentsPanel(this.credentialsPanel, enableFlag);
-        this.enableComponentsPanel(this.ingresoPanel, true);
-        this.enableComponentsPanel(this.feedbackView, true);
-
-        if (enableFlag == false) {
-            this.enableSettingsButton.setText("Habilitar");
-        } else {
-            this.enableSettingsButton.setText("Deshabilitar");
-        }
-
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private settings.ConfigPanelCartaporte configPanelCartaporte;
     private settings.ConfigPanelManifiesto configPanelManifiesto;
+    private javax.swing.JTabbedPane configTabs;
     private javax.swing.JTabbedPane containerPanelConfig;
-    private javax.swing.JPanel containerPanelData;
     private settings.CredentialsPanel credentialsPanel;
-    private settings.DatosPanel datosPanel;
-    private javax.swing.JTextField empresaField;
-    private javax.swing.JLabel empresaLabel;
-    private javax.swing.JButton enableSettingsButton;
+    private settings.EmpresaPanel empresaPanel;
     private settings.FeedbackView feedbackView;
     private javax.swing.JButton guardarButton;
-    private javax.swing.JPanel ingresoPanel;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelData;
     private javax.swing.JPanel panelSaveCancel;
-    private settings.PasswordFieldWithToggle passwordField;
-    private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton salirButton;
-    private javax.swing.JSplitPane settingsSplitPanel;
     private javax.swing.JPanel tabCartaportePanel;
     private javax.swing.JPanel tabManifiestoPanel;
     // End of variables declaration//GEN-END:variables

@@ -2,6 +2,8 @@ package main;
 
 import documento.DocModel;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -42,6 +44,19 @@ public class Utils {
     public static Color HIGH_GREEN = new Color(240, 255, 240);
     public static Color MID_YELLOW = new Color(255, 255, 192);
     public static Color LOW_RED = new Color(255, 229, 229);
+    
+
+    // Enable/Disable all components from a container (e.g. Panel, Frame, etc)
+    public static void enableComponentsPanel(Container container, boolean enableFlag) {
+        container.setEnabled(enableFlag);
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            component.setEnabled(enableFlag);
+            if (component instanceof Container) {
+                enableComponentsPanel((Container) component, enableFlag);
+            }
+        }
+    }    
 
     // Toggle color to selected radio button
     public static void toggleRadioButtonColor(JRadioButton[] radioButtons) {

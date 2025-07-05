@@ -69,7 +69,6 @@ public class PythonManager {
         String response = null;
         do {
             response = pythonOutput.readLine();
-            System.out.println("+++ CMM: " + response);
         } while (!response.startsWith("RESPONSE:"));
 
         return response;

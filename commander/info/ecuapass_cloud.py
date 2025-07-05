@@ -60,6 +60,10 @@ class EcuCloud:
 	GITREPO     = "EcuapassBot7-win"
 	PATCHESLOG  = "patches/patches.log"
 
+	# Flags for verification of authorized empresa
+	authorizedEmpresaError = None
+	authorizedEmpresaDone  = threading.Event ()
+	
 	#----------------------------------------------------------------
 	# Trigger the logging asynchronously
 	# logInfo: Text info or PDF filepath
@@ -179,6 +183,69 @@ class EcuCloud:
 			print (f"NETERROR::General authorization issue : {ex}")
 			errorsList.append (EcudocCloudException (f"CLOUDERROR::Problemas verificando autorización de la empresa: '{empresa}'"))
 			raise
+
+	#----------------------------------------------------------------
+	# Check in background if empresa is authorized or not. Raises an event
+	#----------------------------------------------------------------
+	def verifyAuthorizedEmpresa (empresa):
+		Utils.log ("Verifying authorized empresa")
+		try:
+			credentials = EcuCloud.getGoogleCredentials ()
+			sheet       = EcuCloud.getGoogleSheet ('clients', credentials)
+			records     = sheet.get_all_records()
+			for record in records:
+				if record.get ("EMPRESA") == empresa:
+					if record.get("AUTORIZACION", "").strip().upper() == "SI":
+						Utils.log (f"+++++++++++++++ Empresa '{empresa}' está autorizada ++++++++++++++++")
+						return True
+					else:
+						break
+
+			Utils.log (f"+++ Empresa no autorizada...")
+			raise IllegalEmpresaException (f"NETERROR::Empresa no autorizada: '{empresa}'.\\\\Verifique si está autorizado e inicie nuevamente.")
+
+		except (TransportError, httplib2.ServerNotFoundError, socket.gaierror) as ex:
+			print (f"NETERROR::Connection issue: {ex}")
+			raise
+		except HttpError as ex:
+			print (f"NETERROR::Google API issue: {ex}")
+			raise
+		except EcudocException as ex:
+			raise
+		except Exception as ex:
+			print (f"NETERROR::General authorization issue : {ex}")
+			raise
+
+
+	def runEventAuthorizedEmpresa (empresa):
+		Utils.log ("Running runEventAuthorizedEmpresa...")
+		EcuCloud.authorizedEmpresaDone.clear () # reset event
+		def worker ():
+			try:
+				EcuCloud.verifyAuthorizedEmpresa (empresa)
+				EcuCloud.authorizedEmpresaError = None
+			except Exception as ex:
+				Utils.log (str (ex))
+				EcuCloud.authorizedEmpresaError = ex
+			finally:
+				EcuCloud.authorizedEmpresaDone.set()  # signal completion
+
+		thread = threading.Thread (target=worker)
+		thread.start ()
+		return thread
+
+	def checkEventAuthorizedEmpresa ():
+		if EcuCloud.authorizedEmpresaDone.wait (timeout=5):
+			if EcuCloud.authorizedEmpresaError:
+				raise authorizedEmpresaError
+			else:
+				print (f"+++ Verificación empresa autorizada finalizado con éxito")
+				return True
+		else:
+			raise IllegalEmpresaException (f"NETERROR::Tiempo expirado verificando autorización de empresa.\\\\Verifique si está autorizado e inicie nuevamente.")
+
+
+
 
 	#----------------------------------------------------------------
 	# Send transportista info
@@ -318,7 +385,7 @@ class EcuCloud:
 			lastAppliedPatch = getLastAppliedPatch (cls.PATCHESLOG)
 			patch_name       = patch_asset ["name"]
 			if lastAppliedPatch and getVersion (patch_name) <= getVersion (lastAppliedPatch):
-				print ("Lates patch is already applied:", lastAppliedPatch, "vs", patch_name)
+				print ("Latest patch is already applied:", lastAppliedPatch, "vs", patch_name)
 				return False
 
 			downloadPatch (patch_asset, patch_name, "patches")

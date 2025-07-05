@@ -23,8 +23,7 @@ CMM2="get_initial_pdf_info|/home/lg/BIO/ecuapassdocs/ecuapassdocs-samples/sample
 CMM3="doc_processing|/home/lg/Documents/Ecuapassdocs/DUMMY-ALCOMEXCARGO-CPI-CO000216.pdf|ALCOMEXCARGO|COLOMBIA|TULCAN"
 
 echo ">>>" $CMM1
-echo ">>>" $CMM2
-echo ">>>" $CMM3
+#echo ">>>" $CMM2
+#echo ">>>" $CMM3
 commander/ecuapass_commander.py<<EOF
 $CMM1
-
